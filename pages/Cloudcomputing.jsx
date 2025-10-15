@@ -1,0 +1,207 @@
+import { useState, useEffect } from 'react';
+
+// Importing all images
+import CloudComputingMastery from '/src/Assets/CloudComputing/CloudComputingMastery.jpg';
+import AWS from '/src/Assets/CloudComputing/AWS.jpg';
+import Azure from '/src/Assets/CloudComputing/Azure.jpg';
+import GoogleCloud from '/src/Assets/CloudComputing/GoogleCloud.jpg';
+import DevOps from '/src/Assets/CloudComputing/DevOps.jpg';
+import Kubernetes from '/src/Assets/CloudComputing/Kubernetes.webp';
+import Docker from '/src/Assets/CloudComputing/Docker.jpg';
+import Compute from '/src/Assets/CloudComputing/Compute.jpg';
+import Storage from '/src/Assets/CloudComputing/Storage.avif';
+import Networking from '/src/Assets/CloudComputing/Networking.jpg';
+import Databases from '/src/Assets/CloudComputing/Databases.jpg';
+
+const CloudComputing = () => {
+  const [currentTab, setCurrentTab] = useState('overview');
+  const [loading, setLoading] = useState(true);
+
+  // Cloud computing data with imported images
+  const cloudData = {
+    overview: {
+      title: "Cloud Computing Mastery",
+      description: "Cloud computing delivers computing services—servers, storage, databases, networking, software, analytics, and more—over the Internet ('the cloud'). This program covers AWS, Azure, Google Cloud, DevOps, and Kubernetes at an intermediate to advanced level.",
+      duration: "5 months",
+      level: "Intermediate to Advanced",
+      image: CloudComputingMastery
+    },
+    platforms: {
+      title: "Cloud Platforms",
+      items: [
+        { name: "AWS", image: AWS },
+        { name: "Azure", image: Azure },
+        { name: "Google Cloud", image: GoogleCloud }
+      ]
+    },
+    technologies: {
+      title: "Cloud Technologies",
+      items: [
+        { name: "DevOps", image: DevOps },
+        { name: "Kubernetes", image: Kubernetes },
+        { name: "Docker", image: Docker },
+        { name: "Terraform", image: CloudComputingMastery } // Using placeholder
+      ]
+    },
+    services: {
+      title: "Cloud Services",
+      items: [
+        { name: "Compute", image: Compute },
+        { name: "Storage", image: Storage },
+        { name: "Networking", image: Networking },
+        { name: "Databases", image: Databases }
+      ]
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const renderContent = () => {
+    switch(currentTab) {
+      case 'platforms':
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {cloudData.platforms.items.map((tech, index) => (
+              <TechCard key={index} name={tech.name} image={tech.image} />
+            ))}
+          </div>
+        );
+      case 'technologies':
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {cloudData.technologies.items.map((tech, index) => (
+              <TechCard key={index} name={tech.name} image={tech.image} />
+            ))}
+          </div>
+        );
+      case 'services':
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {cloudData.services.items.map((tech, index) => (
+              <TechCard key={index} name={tech.name} image={tech.image} />
+            ))}
+          </div>
+        );
+      default:
+        return (
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
+            <div className="w-full md:w-1/2">
+              <img 
+                src={cloudData.overview.image} 
+                alt="Cloud Computing Overview" 
+                className="rounded-lg shadow-xl w-full h-auto"
+              />
+            </div>
+            <div className="w-full md:w-1/2">
+              <h2 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4">{cloudData.overview.title}</h2>
+              <p className="text-gray-700 mb-4 text-sm sm:text-base">{cloudData.overview.description}</p>
+              
+              <div className="bg-blue-100 p-3 md:p-4 rounded-lg mb-4">
+                <div className="flex items-center mb-2">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="font-semibold text-sm md:text-base">Duration:</span> 
+                  <span className="ml-1 text-sm md:text-base">{cloudData.overview.duration}</span>
+                </div>
+                <div className="flex items-center">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="font-semibold text-sm md:text-base">Level:</span> 
+                  <span className="ml-1 text-sm md:text-base">{cloudData.overview.level}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+    }
+  };
+
+  const TechCard = ({ name, image }) => (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <div className="h-32 sm:h-40 bg-gray-200 overflow-hidden">
+        <img 
+          src={image} 
+          alt={name} 
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="p-3 md:p-4">
+        <h3 className="text-base md:text-lg font-semibold text-center">{name}</h3>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900">
+            Cloud Computing
+          </h1>
+          <p className="mt-3 max-w-xl mx-auto text-base sm:text-xl text-gray-500">
+            Master AWS, Azure, Google Cloud, DevOps, and Kubernetes
+          </p>
+        </div>
+
+        {/* Navigation Tabs - Responsive */}
+        <div className="flex flex-wrap justify-center mb-6 md:mb-8 border-b border-gray-200">
+          {['overview', 'platforms', 'technologies', 'services'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setCurrentTab(tab)}
+              className={`px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 font-medium text-xs sm:text-sm rounded-t-lg mr-1 sm:mr-2 mb-2 ${currentTab === tab ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}`}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Content Area */}
+        {loading ? (
+          <div className="flex justify-center items-center h-48 sm:h-64">
+            <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        ) : (
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+            <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800">
+              {cloudData[currentTab]?.title || cloudData.overview.title}
+            </h2>
+            {renderContent()}
+          </div>
+        )}
+
+        {/* Cloud Architecture Diagram */}
+        <div className="mt-8 sm:mt-12 bg-white p-4 sm:p-6 rounded-lg shadow-md">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800">Cloud Architecture Components</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+            {[
+              { name: "Virtual Machines", icon: "🖥️" },
+              { name: "Containers", icon: "📦" },
+              { name: "Serverless", icon: "⚡" },
+              { name: "Storage", icon: "💾" },
+              { name: "Networking", icon: "🌐" },
+              { name: "Security", icon: "🔒" },
+              { name: "Monitoring", icon: "👀" },
+              { name: "CI/CD", icon: "🔄" }
+            ].map((item, index) => (
+              <div key={index} className="bg-gray-100 p-3 sm:p-4 rounded-lg text-center">
+                <div className="text-2xl sm:text-3xl mb-1 sm:mb-2">{item.icon}</div>
+                <h3 className="font-medium text-xs sm:text-sm">{item.name}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CloudComputing;
